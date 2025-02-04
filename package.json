@@ -3,13 +3,18 @@
 	"version": "1.0.0",
 	"description": "Utilities for setup git convention (commitlint) using husky hooks",
 	"main": "src/index.mjs",
+	"bin": "node src/index.mjs",
+	"private": false,
+	"publishConfig": {
+		"access": "public"
+	},
 	"scripts": {
 		"lint": "eslint .",
 		"postinstall": "node src/index.mjs"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/orgs/sabo99-packages/repositories"
+		"url": "https://github.com/sabo99/git-convention"
 	},
 	"keywords": [
 		"git",
