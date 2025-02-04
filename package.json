@@ -1,6 +1,6 @@
 {
 	"name": "@sabo99/git-convention",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Utilities for setup git convention (commitlint) using husky hooks",
 	"main": "src/index.mjs",
 	"bin": "node src/index.mjs",
