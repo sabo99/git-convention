@@ -17,7 +17,7 @@
 Install globally using npm:
 
 ```sh
-npm install -g @sabo/git-convention
+npm install -g @sabo99/git-convention
 ```
 
 Or use `npx` to run it without installation:
