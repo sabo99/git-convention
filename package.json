@@ -14,8 +14,8 @@
 	"scripts": {
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
-		"git:convention:setup": "node src/index.js",
-		"postinstall": "npm run git:convention:setup"
+		"convention:setup": "node src/index.js",
+		"postinstall": "npm run convention:setup"
 	},
 	"repository": {
 		"type": "git",
