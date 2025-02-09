@@ -1,9 +1,9 @@
-# @sabo/git-convention
+# @sabo99/git-convention
 
 [![npm Package](https://img.shields.io/npm/v/@sabo/git-convention?color=blue&style=flat-square)](https://www.npmjs.org/package/@sabo/git-convention)
 [![License](https://img.shields.io/npm/l/@sabo/git-convention.svg)](https://github.com/sabo99/git-convention/blob/master/LICENSE)
 
-🚀 **@sabo/git-convention** is a simple CLI tool to set up Git conventions like Husky and Commitlint in your project.
+🚀 **@sabo99/git-convention** is a simple CLI tool to set up Git conventions like Husky and Commitlint in your project.
 
 ---
 
@@ -27,7 +27,7 @@ npm install -g @sabo/git-convention
 Or use `npx` to run it without installation:
 
 ```sh
-npx @sabo/git-convention init
+npx @sabo99/git-convention init
 ```
 
 ---
