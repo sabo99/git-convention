@@ -1,6 +1,15 @@
+#!/usr/bin/env node
+
 import process from "node:process";
 import { execSync } from "node:child_process";
-import { existsSync, mkdirSync, copyFileSync } from "fs";
+import {
+	existsSync,
+	mkdirSync,
+	copyFileSync,
+	appendFileSync,
+	readFileSync,
+	writeFileSync,
+} from "fs";
 import { dirname, join, resolve } from "path";
 import { fileURLToPath } from "url";
 
@@ -15,6 +24,12 @@ const commitlintSrc = join(
 	"src/template/commitlint/.commitlintrc.json"
 );
 const commitlintDest = join(projectRoot, ".commitlintrc.json");
+const gitignoreTemplateSrc = join(
+	packageRoot,
+	"src/template/ignorefile/.gitignore"
+);
+const gitignoreDest = join(projectRoot, ".gitignore");
+const huskyIgnoreLine = "# husky config\n.husky\n";
 
 /**
  * Ensure the given directory exists, create if necessary.
@@ -72,6 +87,38 @@ function setupHuskyHooks() {
 }
 
 /**
+ * Ensure .gitignore exists and add Husky ignore rule.
+ */
+function setupGitignore() {
+	try {
+		if (existsSync(gitignoreDest)) {
+			// Read existing .gitignore
+			const content = readFileSync(gitignoreDest, "utf8");
+
+			// Check if the line is already present
+			if (!content.includes(".husky")) {
+				appendFileSync(gitignoreDest, `\n${huskyIgnoreLine}`);
+				console.log("✔ Added Husky ignore rule to .gitignore");
+			} else {
+				console.log("✔ .husky already ignored in .gitignore, skipping.");
+			}
+		} else {
+			// Copy the template .gitignore if it exists
+			if (existsSync(gitignoreTemplateSrc)) {
+				copyFileSync(gitignoreTemplateSrc, gitignoreDest);
+				console.log("✔ Copied .gitignore from template.");
+			} else {
+				// If no template exists, create a new one
+				writeFileSync(gitignoreDest, huskyIgnoreLine);
+				console.log("✔ Created a new .gitignore with Husky ignore rule.");
+			}
+		}
+	} catch (error) {
+		console.error("❌ Error modifying .gitignore:", error.message);
+	}
+}
+
+/**
  * Install necessary development dependencies.
  */
 function installDependencies() {
@@ -107,6 +154,7 @@ function setup() {
 		// Copy required files
 		setupCommitlint();
 		setupHuskyHooks();
+		setupGitignore();
 
 		console.log("✅ Husky setup complete!");
 	} catch (error) {

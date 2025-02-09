@@ -9,10 +9,11 @@
 	"main": "./src/index.js",
 	"type": "module",
 	"bin": {
-		"init": "git:convention:setup"
+		"git-convention": "src/index.js"
 	},
 	"scripts": {
 		"lint": "eslint .",
+		"lint:fix": "eslint . --fix",
 		"git:convention:setup": "node src/index.js",
 		"postinstall": "npm run git:convention:setup"
 	},
@@ -32,8 +33,6 @@
 	"dependencies": {
 		"@commitlint/cli": "^19.7.1",
 		"@commitlint/config-conventional": "^19.7.1",
-		"chalk": "^5.0.0",
-		"commander": "^10.0.0",
 		"husky": "^9.1.7"
 	},
 	"devDependencies": {
