@@ -79,6 +79,17 @@ function setupHuskyHooks() {
 		const destPath = join(huskyTargetDir, hook);
 
 		if (existsSync(srcPath)) {
+			// Check if destination file exists and has the same content
+			if (existsSync(destPath)) {
+				const srcContent = readFileSync(srcPath, "utf8").trim();
+				const destContent = readFileSync(destPath, "utf8").trim();
+
+				if (srcContent === destContent) {
+					console.log(`✔ Skipped: ${hook} already up to date.`);
+					return;
+				}
+			}
+
 			copyFile(srcPath, destPath);
 		} else {
 			console.warn(`⚠ Husky hook "${hook}" not found, skipping.`);
