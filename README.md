@@ -1,7 +1,7 @@
 # @sabo/git-convention
 
-![npm](https://img.shields.io/npm/v/@sabo/git-convention?color=blue&style=flat-square)
-![license](https://img.shields.io/github/license/sabo99/git-convention?style=flat-square)
+[![npm Package](https://img.shields.io/npm/v/@sabo/git-convention?color=blue&style=flat-square)](https://www.npmjs.org/package/@sabo/git-convention)
+[![License](https://img.shields.io/npm/l/@sabo/git-convention.svg)](https://github.com/sabo99/git-convention/blob/master/LICENSE)
 
 🚀 **@sabo/git-convention** is a simple CLI tool to set up Git conventions like Husky and Commitlint in your project.
 
