@@ -1,16 +1,20 @@
 {
 	"name": "@sabo99/git-convention",
-	"version": "1.0.1",
+	"version": "1.0.0",
 	"description": "Utilities for setup git convention (commitlint) using husky hooks",
-	"main": "src/index.mjs",
-	"bin": "node src/index.mjs",
 	"private": false,
 	"publishConfig": {
 		"access": "public"
 	},
+	"main": "./src/index.js",
+	"type": "module",
+	"bin": {
+		"init": "git:convention:setup"
+	},
 	"scripts": {
 		"lint": "eslint .",
-		"postinstall": "node src/index.mjs"
+		"git:convention:setup": "node src/index.js",
+		"postinstall": "npm run git:convention:setup"
 	},
 	"repository": {
 		"type": "git",
@@ -28,6 +32,8 @@
 	"dependencies": {
 		"@commitlint/cli": "^19.7.1",
 		"@commitlint/config-conventional": "^19.7.1",
+		"chalk": "^5.0.0",
+		"commander": "^10.0.0",
 		"husky": "^9.1.7"
 	},
 	"devDependencies": {
