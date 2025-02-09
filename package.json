@@ -1,34 +1,43 @@
 {
-  "name": "@sabo99/git-convention",
-  "version": "1.0.0",
-  "description": "Utilities for setup git convention (commitlint) using husky hooks",
-  "main": "src/index.mjs",
-  "private": "false",
-  "scripts": {
-    "lint": "eslint .",
-    "postinstall": "node src/index.mjs"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/orgs/sabo99-packages/repositories"
-  },
-  "keywords": [
-    "git",
-    "convention",
-    "husky",
-    "commitlint",
-    "setup"
-  ],
-  "author": "sabo99",
-  "license": "ISC",
-  "dependencies": {
-    "@commitlint/cli": "^19.7.1",
-    "@commitlint/config-conventional": "^19.7.1",
-    "husky": "^9.1.7"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.19.0",
-    "eslint": "^9.19.0",
-    "globals": "^15.14.0"
-  }
+	"name": "@sabo99/git-convention",
+	"version": "1.0.0",
+	"description": "Utilities for setup git convention (commitlint) using husky hooks",
+	"private": false,
+	"publishConfig": {
+		"access": "public"
+	},
+	"main": "./src/index.js",
+	"type": "module",
+	"bin": {
+		"git-convention": "src/index.js"
+	},
+	"scripts": {
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix",
+		"git:convention:setup": "node src/index.js",
+		"postinstall": "npm run git:convention:setup"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/sabo99/git-convention"
+	},
+	"keywords": [
+		"git",
+		"convention",
+		"husky",
+		"commitlint",
+		"setup"
+	],
+	"author": "sabo99",
+	"license": "ISC",
+	"dependencies": {
+		"@commitlint/cli": "^19.7.1",
+		"@commitlint/config-conventional": "^19.7.1",
+		"husky": "^9.1.7"
+	},
+	"devDependencies": {
+		"@eslint/js": "^9.19.0",
+		"eslint": "^9.19.0",
+		"globals": "^15.14.0"
+	}
 }
