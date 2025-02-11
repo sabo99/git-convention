@@ -8,7 +8,7 @@ import {
 	copyFileSync,
 	appendFileSync,
 	readFileSync,
-	writeFileSync,
+	writeFileSync
 } from "fs";
 import { dirname, join, resolve } from "path";
 import { fileURLToPath } from "url";
@@ -138,7 +138,7 @@ function installDependencies() {
 		execSync(
 			"npm install -D husky @commitlint/cli @commitlint/config-conventional",
 			{
-				stdio: "inherit",
+				stdio: "inherit"
 			}
 		);
 	}
