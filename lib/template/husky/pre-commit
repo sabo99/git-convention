@@ -3,12 +3,12 @@
 . "$(dirname "$0")/_/husky.sh"
 
 # Uncomment this line if your project has a linting script
-# npm run lint
+yarn lint
 
-# Reminder: Remove this message once pre-push is set up
+# Reminder: Remove this message once pre-commit & pre-push is set up
 # ==========================================================================
 echo "============================================================"
-echo "⚠️  Required! Please set up your pre-commit hook in .husky/pre-push"
+echo "⚠️  Required! Please set up your pre-commit hook in .husky/pre-commit"
 echo "⚠️  Required! Please set up your pre-push hook in .husky/pre-push"
 echo "============================================================"
 exit 1
