@@ -4,6 +4,7 @@ import pluginJs from "@eslint/js";
 /** @type {import('eslint').Linter.Config[]} */
 export default [
 	{
+    ignores: ["coverage/**, node_modules/**"],
 		languageOptions: { globals: globals.browser },
 		rules: {
 			"no-underscore-dangle": "off",
