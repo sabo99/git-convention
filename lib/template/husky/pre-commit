@@ -3,7 +3,7 @@
 . "$(dirname "$0")/_/husky.sh"
 
 # Uncomment this line if your project has a linting script
-yarn lint
+# yarn lint
 
 # Reminder: Remove this message once pre-commit & pre-push is set up
 # ==========================================================================
