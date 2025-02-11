@@ -6,15 +6,15 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"main": "./src/index.js",
+	"main": "./lib/index.js",
 	"type": "module",
 	"bin": {
-		"git-convention": "src/index.js"
+		"git-convention": "lib/index.js"
 	},
 	"scripts": {
 		"lint": "eslint .",
 		"lint:fix": "eslint . --fix",
-		"convention:setup": "node src/index.js",
+		"convention:setup": "node lib/index.js",
 		"postinstall": "npm run convention:setup"
 	},
 	"repository": {
