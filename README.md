@@ -9,7 +9,6 @@
 
 ✔ Automatically installs and configures **Husky** 🐶  
 ✔ Sets up **Commitlint** for commit message validation 📝  
-✔ Ensures `.gitignore` includes necessary rules ⚡  
 ✔ Works with any Node.js project 💡  
 
 ## 📦 Installation
@@ -39,7 +38,6 @@ This will:
 - Install **Husky** and **Commitlint**
 - Configure Husky hooks (`commit-msg`, `pre-commit`, `pre-push`)
 - Add `.commitlintrc.json` to enforce conventional commits
-- Ensure `.husky` is ignored in `.gitignore`
 
 ## 📝 Git Commit Convention Examples
 
@@ -85,9 +83,21 @@ You can modify `.commitlintrc.json` to adjust commit message rules:
 Modify `.husky/pre-commit` to add custom pre-commit scripts:
 
 ```sh
-#!/bin/sh
+#!/usr/bin/env sh
+
 . "$(dirname "$0")/_/husky.sh"
-npm test
+
+yarn lint
+```
+
+Modify `.husky/pre-push` to add custom pre-push scripts:
+
+```sh
+#!/usr/bin/env sh
+
+. "$(dirname "$0")/_/husky.sh"
+
+yarn test:cov
 ```
 
 ## 🤝 Contributing
