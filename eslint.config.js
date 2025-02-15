@@ -1,21 +1,27 @@
-import globals from "globals";
-import pluginJs from "@eslint/js";
-import pluginJest from "eslint-plugin-jest";
+const globals = require("globals");
+const pluginJs = require("@eslint/js");
+const pluginJest = require("eslint-plugin-jest");
 
 /** @type {import('eslint').Linter.Config[]} */
-export default [
+module.exports = [
 	pluginJs.configs.recommended,
+  pluginJest.configs["flat/recommended"],
 	{
-    ignores: ["coverage/**"],
-    ...pluginJest.configs["flat/recommended"],
-		languageOptions: { globals: globals.node },
+		plugins: { jest: pluginJest },
+		ignores: ["coverage/**"],
+		languageOptions: {
+			globals: {
+				...globals.node,
+				...pluginJest.configs["flat/recommended"].globals
+			}
+		},
 		rules: {
-      'jest/prefer-expect-assertions': 'off',
-      'jest/no-disabled-tests': 'warn',
-      'jest/no-focused-tests': 'error',
-      'jest/no-identical-title': 'error',
-      'jest/prefer-to-have-length': 'warn',
-      'jest/valid-expect': 'error',
+			"jest/prefer-expect-assertions": "off",
+			"jest/no-disabled-tests": "warn",
+			"jest/no-focused-tests": "error",
+			"jest/no-identical-title": "error",
+			"jest/prefer-to-have-length": "warn",
+			"jest/valid-expect": "error",
 
 			// no console.log
 			// "no-console": "off",
