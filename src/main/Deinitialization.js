@@ -25,15 +25,14 @@ class Deinitialization {
 		const huskyState = State.get("HUSKY");
 		const { skip } = huskyState;
 		if (skip) {
-      console.log("✔ Skipped: deinitialization.");
-			return;
+			console.log("✔ Skipped: deinitialization.");
+		} else {
+			console.log("🔧 Deinitialization process...");
+
+			NPM_PACKAGES.forEach((deletePackage) => {
+				execSync(deletePackage.command, deletePackage.options);
+			});
 		}
-
-		console.log("🔧 Deinitialization process...");
-
-		NPM_PACKAGES.forEach((deletePackage) => {
-			execSync(deletePackage.command, deletePackage.options);
-		});
 	}
 
 	_deleteState() {
@@ -41,11 +40,11 @@ class Deinitialization {
 		State.delete();
 	}
 
-  /**
-   * Executes the deinitialization process by deleting packages and state.
-   *
-   * @return {void}
-   */
+	/**
+	 * Executes the deinitialization process by deleting packages and state.
+	 *
+	 * @return {void}
+	 */
 	exec() {
 		this._deletePackages();
 		this._deleteState();

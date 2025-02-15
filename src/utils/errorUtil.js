@@ -1,9 +1,5 @@
-const throwIfMissing = (value, message) => {
-	if (value === undefined || value === null) {
-		throw new TypeError(message);
-	}
-};
+const { throwIfMissing } = require('@sabo99/node-utils');
 
 module.exports = {
-  throwIfMissing
+	throwIfMissing
 };

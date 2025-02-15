@@ -13,6 +13,7 @@ class Initialization {
 	 * @throws Will throw an error if any of the required options are missing.
 	 */
 	constructor(options) {
+		throwIfMissing(options, "options is required");
 		throwIfMissing(options.config, "options.config is required");
 		throwIfMissing(options.packageRoot, "options.packageRoot is required");
 		throwIfMissing(options.projectRoot, "options.projectRoot is required");

@@ -15,6 +15,7 @@ class Preparation {
 	 * @throws Will throw an error if any of the required options are missing.
 	 */
 	constructor(options) {
+    throwIfMissing(options, "options is required");
 		throwIfMissing(options.config, "options.config is required");
 
 		Object.assign(this, options);
