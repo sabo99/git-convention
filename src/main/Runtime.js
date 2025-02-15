@@ -30,7 +30,10 @@ class Runtime {
 	}
 
 	_execPreparation() {
-		new Preparation({ config: this.config }).exec();
+		new Preparation({
+			config: this.config,
+			packageRoot: this.packageRoot
+		}).exec();
 	}
 
 	_execDeinitialization() {
@@ -50,7 +53,7 @@ class Runtime {
 	exec() {
 		this._execInitialization();
 		this._execPreparation();
-    this._execDeinitialization();
+		this._execDeinitialization();
 	}
 }
 

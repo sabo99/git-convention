@@ -2,9 +2,9 @@ const utils = require("../utils");
 
 module.exports = {
 	Paths: {
-		HUSKY: utils.createPath("./src/template/husky", ".husky/"),
+		HUSKY: utils.createPath("/template/husky", ".husky/"),
 		COMMITLINT: utils.createPath(
-			"./src/template/commitlint/.commitlintrc.json",
+			"/template/commitlint/.commitlintrc.json",
 			".commitlintrc.json"
 		)
 	},

@@ -7,28 +7,29 @@ jest.mock("../../src/utils");
 describe("Preparation", () => {
 	let options, config;
 
-  console.log = jest.fn();
-  console.error = jest.fn();
+	console.log = jest.fn();
+	console.error = jest.fn();
 
-  config = {
-    Paths: {
-      COMMITLINT: {
-        source: "path/to/commitlint/config",
-        dest: "path/to/dest/commitlint/config"
-      },
-      HUSKY: {
-        source: "path/to/husky/hooks",
-        dest: "path/to/dest/husky/hooks"
-      }
-    },
-    Files: {
-      HUSKY_HOOKS: ["pre-commit", "commit-msg"]
-    }
-  };
+	config = {
+		Paths: {
+			COMMITLINT: {
+				source: "commitlint/config",
+				dest: "path/to/dest/commitlint/config"
+			},
+			HUSKY: {
+				source: "husky/hooks",
+				dest: "path/to/dest/husky/hooks"
+			}
+		},
+		Files: {
+			HUSKY_HOOKS: ["pre-commit", "commit-msg"]
+		}
+	};
 
-  options = {
-    config
-  };
+	options = {
+		config,
+		packageRoot: "/path/from/package"
+	};
 
 	afterEach(() => {
 		jest.clearAllMocks();
@@ -41,12 +42,14 @@ describe("Preparation", () => {
 
 			preparation.exec();
 
-			expect(existsSync).toHaveBeenCalledWith("path/to/commitlint/config");
+			expect(existsSync).toHaveBeenCalledWith(
+				"\\path\\from\\package\\commitlint\\config"
+			);
 			expect(mkdirSync).toHaveBeenCalledWith("path/to/dest/commitlint", {
 				recursive: true
 			});
 			expect(copyFileSync).toHaveBeenCalledWith(
-				"path/to/commitlint/config",
+				"\\path\\from\\package\\commitlint\\config",
 				"path/to/dest/commitlint/config"
 			);
 		});
@@ -57,7 +60,7 @@ describe("Preparation", () => {
 
 			preparation.exec();
 
-			expect(existsSync).toHaveBeenCalledWith("path/to/commitlint/config");
+			expect(existsSync).toHaveBeenCalledWith("\\path\\from\\package\\commitlint\\config");
 			expect(copyFileSync).not.toHaveBeenCalled();
 		});
 
@@ -75,7 +78,7 @@ describe("Preparation", () => {
 
 			expect(existsSync).toHaveBeenNthCalledWith(
 				1,
-				"path/to/commitlint/config"
+				"\\path\\from\\package\\commitlint\\config"
 			);
 			expect(existsSync).toHaveBeenNthCalledWith(2, "path/to/dest/commitlint");
 			expect(existsSync).toHaveBeenNthCalledWith(3, "path/to/dest/husky/hooks");
@@ -92,16 +95,16 @@ describe("Preparation", () => {
 
 			expect(existsSync).toHaveBeenNthCalledWith(
 				1,
-				"path/to/commitlint/config"
+				"\\path\\from\\package\\commitlint\\config"
 			);
 			expect(existsSync).toHaveBeenNthCalledWith(2, "path/to/dest/husky/hooks");
 			expect(existsSync).toHaveBeenNthCalledWith(
 				3,
-				"path\\to\\husky\\hooks\\pre-commit"
+				"\\path\\from\\package\\husky\\hooks\\pre-commit"
 			);
 			expect(existsSync).toHaveBeenNthCalledWith(
 				4,
-				"path\\to\\husky\\hooks\\commit-msg"
+				"\\path\\from\\package\\husky\\hooks\\commit-msg"
 			);
 			expect(copyFileSync).not.toHaveBeenCalled();
 		});
@@ -118,7 +121,7 @@ describe("Preparation", () => {
 			preparation.exec();
 
 			expect(console.error).toHaveBeenCalledWith(
-				"❌ Error copying path/to/commitlint/config to path/to/dest/commitlint/config:",
+				"❌ Error copying \\path\\from\\package\\commitlint\\config to path/to/dest/commitlint/config:",
 				errorMessage
 			);
 		});
@@ -139,13 +142,13 @@ describe("Preparation", () => {
 
 			expect(existsSync).toHaveBeenNthCalledWith(
 				1,
-				"path/to/commitlint/config"
+				"\\path\\from\\package\\commitlint\\config"
 			);
 			expect(existsSync).toHaveBeenNthCalledWith(2, "path/to/dest/commitlint");
 			expect(existsSync).toHaveBeenNthCalledWith(3, "path/to/dest/husky/hooks");
 			expect(existsSync).toHaveBeenNthCalledWith(
 				4,
-				"path\\to\\husky\\hooks\\pre-commit"
+				"\\path\\from\\package\\husky\\hooks\\pre-commit"
 			);
 			expect(existsSync).toHaveBeenNthCalledWith(
 				5,
@@ -153,7 +156,7 @@ describe("Preparation", () => {
 			);
 			expect(readFileSync).toHaveBeenNthCalledWith(
 				1,
-				"path\\to\\husky\\hooks\\pre-commit",
+				"\\path\\from\\package\\husky\\hooks\\pre-commit",
 				"utf8"
 			);
 			expect(readFileSync).toHaveBeenNthCalledWith(
@@ -165,7 +168,7 @@ describe("Preparation", () => {
 				"✔ Skipped: pre-commit already up to date."
 			);
 			expect(copyFileSync).toHaveBeenCalledWith(
-				"path/to/commitlint/config",
+				"\\path\\from\\package\\commitlint\\config",
 				"path/to/dest/commitlint/config"
 			);
 		});
