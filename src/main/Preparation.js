@@ -12,11 +12,13 @@ class Preparation {
 	 * @constructor
 	 * @param {Object} options - The configuration options.
 	 * @param {object} options.config - The configuration object.
+   * @param {string} options.packageRoot - The root directory of the package.
 	 * @throws Will throw an error if any of the required options are missing.
 	 */
 	constructor(options) {
     throwIfMissing(options, "options is required");
 		throwIfMissing(options.config, "options.config is required");
+		throwIfMissing(options.packageRoot, "options.packageRoot is required");
 
 		Object.assign(this, options);
 	}
@@ -39,7 +41,9 @@ class Preparation {
 
 	_setupCommitlint() {
 		const { Paths } = this.config;
-		const { source: commitlintSrc, dest: commitlintDest } = Paths.COMMITLINT;
+		const { source, dest: commitlintDest } = Paths.COMMITLINT;
+    const commitlintSrc = join(this.packageRoot, source);
+
 		if (existsSync(commitlintSrc)) {
 			this._copyFile(commitlintSrc, commitlintDest);
 		} else {
@@ -49,7 +53,8 @@ class Preparation {
 
 	_setupHuskyHooks() {
 		const { Paths, Files } = this.config;
-		const { source: huskySrc, dest: huskyDest } = Paths.HUSKY;
+		const { source, dest: huskyDest } = Paths.HUSKY;
+    const huskySrc = join(this.packageRoot, source);
 
 		this._ensureDirectoryExists(huskyDest);
 
