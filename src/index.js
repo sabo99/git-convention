@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const Runtime = require("./main/Runtime");
+const Runtime = require("./main/runtime");
 const { resolve } = require("path");
 const process = require("node:process");
 const config = require("./config");

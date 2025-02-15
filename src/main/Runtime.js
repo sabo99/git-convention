@@ -1,6 +1,6 @@
 const Initialization = require("./initialization");
-const Preparation = require("./Preparation");
-const Deinitialization = require("./Deinitialization");
+const Preparation = require("./preparation");
+const Deinitialization = require("./deinitialization");
 const { throwIfMissing } = require("../utils");
 
 class Runtime {
