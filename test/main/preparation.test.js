@@ -60,11 +60,18 @@ describe("Preparation", () => {
 
 			preparation.exec();
 
-			expect(existsSync).toHaveBeenCalledWith("\\path\\from\\package\\commitlint\\config");
+			expect(existsSync).toHaveBeenCalledWith(
+				"\\path\\from\\package\\commitlint\\config"
+			);
 			expect(copyFileSync).not.toHaveBeenCalled();
 		});
 
 		it("should create directories and copy husky hooks if they exist", () => {
+			const expectedResults = [
+				"\\path\\from\\package\\commitlint\\config",
+				"path/to/dest/commitlint",
+				"path/to/dest/husky/hooks"
+			];
 			existsSync
 				.mockReturnValueOnce(true)
 				.mockReturnValueOnce(true)
@@ -72,53 +79,42 @@ describe("Preparation", () => {
 			readFileSync
 				.mockReturnValueOnce("hook content")
 				.mockReturnValueOnce("hook content");
-			const preparation = new Preparation(options);
 
-			preparation.exec();
+			new Preparation(options).exec();
 
-			expect(existsSync).toHaveBeenNthCalledWith(
-				1,
-				"\\path\\from\\package\\commitlint\\config"
-			);
-			expect(existsSync).toHaveBeenNthCalledWith(2, "path/to/dest/commitlint");
-			expect(existsSync).toHaveBeenNthCalledWith(3, "path/to/dest/husky/hooks");
+			expectedResults.forEach((expectedResult, index) => {
+				expect(existsSync).toHaveBeenNthCalledWith(index + 1, expectedResult);
+			});
 			expect(mkdirSync).toHaveBeenCalledWith("path/to/dest/husky/hooks", {
 				recursive: true
 			});
 		});
 
 		it("should skip copying husky hooks if they do not exist", () => {
-			existsSync.mockReturnValueOnce(false);
-			const preparation = new Preparation(options);
-
-			preparation.exec();
-
-			expect(existsSync).toHaveBeenNthCalledWith(
-				1,
-				"\\path\\from\\package\\commitlint\\config"
-			);
-			expect(existsSync).toHaveBeenNthCalledWith(2, "path/to/dest/husky/hooks");
-			expect(existsSync).toHaveBeenNthCalledWith(
-				3,
-				"\\path\\from\\package\\husky\\hooks\\pre-commit"
-			);
-			expect(existsSync).toHaveBeenNthCalledWith(
-				4,
+			const expectedResults = [
+				"\\path\\from\\package\\commitlint\\config",
+				"path/to/dest/husky/hooks",
+				"\\path\\from\\package\\husky\\hooks\\pre-commit",
 				"\\path\\from\\package\\husky\\hooks\\commit-msg"
-			);
+			];
+			existsSync.mockReturnValueOnce(false);
+
+			new Preparation(options).exec();
+
+			expectedResults.forEach((expectedResult, index) => {
+				expect(existsSync).toHaveBeenNthCalledWith(index + 1, expectedResult);
+			});
 			expect(copyFileSync).not.toHaveBeenCalled();
 		});
 
 		it("should log an error if copying a file fails", () => {
-			console.error = jest.fn();
 			const errorMessage = "Permission denied";
 			existsSync.mockReturnValueOnce(true);
 			mkdirSync.mockImplementationOnce(() => {
 				throw new Error(errorMessage);
 			});
-			const preparation = new Preparation(options);
 
-			preparation.exec();
+			new Preparation(options).exec();
 
 			expect(console.error).toHaveBeenCalledWith(
 				"❌ Error copying \\path\\from\\package\\commitlint\\config to path/to/dest/commitlint/config:",
@@ -127,6 +123,17 @@ describe("Preparation", () => {
 		});
 
 		it("should skip copying husky hook if destination file has the same content", () => {
+			const existSyncExpectedResults = [
+				"\\path\\from\\package\\commitlint\\config",
+				"path/to/dest/commitlint",
+				"path/to/dest/husky/hooks",
+				"\\path\\from\\package\\husky\\hooks\\pre-commit",
+				"path\\to\\dest\\husky\\hooks\\pre-commit"
+			];
+			const readFileSyncExpectedResults = [
+				"\\path\\from\\package\\husky\\hooks\\pre-commit",
+				"path\\to\\dest\\husky\\hooks\\pre-commit"
+			];
 			existsSync
 				.mockReturnValueOnce(true) // commitlint config exists
 				.mockReturnValueOnce(true) // commitlint dest exists
@@ -136,34 +143,21 @@ describe("Preparation", () => {
 			readFileSync
 				.mockReturnValueOnce("hook content") // husky hook src content
 				.mockReturnValueOnce("hook content"); // husky hook dest content
-			const preparation = new Preparation(options);
 
-			preparation.exec();
+			new Preparation(options).exec();
 
-			expect(existsSync).toHaveBeenNthCalledWith(
-				1,
-				"\\path\\from\\package\\commitlint\\config"
-			);
-			expect(existsSync).toHaveBeenNthCalledWith(2, "path/to/dest/commitlint");
-			expect(existsSync).toHaveBeenNthCalledWith(3, "path/to/dest/husky/hooks");
-			expect(existsSync).toHaveBeenNthCalledWith(
-				4,
-				"\\path\\from\\package\\husky\\hooks\\pre-commit"
-			);
-			expect(existsSync).toHaveBeenNthCalledWith(
-				5,
-				"path\\to\\dest\\husky\\hooks\\pre-commit"
-			);
-			expect(readFileSync).toHaveBeenNthCalledWith(
-				1,
-				"\\path\\from\\package\\husky\\hooks\\pre-commit",
-				"utf8"
-			);
-			expect(readFileSync).toHaveBeenNthCalledWith(
-				2,
-				"path\\to\\dest\\husky\\hooks\\pre-commit",
-				"utf8"
-			);
+			existSyncExpectedResults.forEach((expectedResult, index) => {
+				expect(existsSync).toHaveBeenNthCalledWith(index + 1, expectedResult);
+			});
+
+			readFileSyncExpectedResults.forEach((expectedResult, index) => {
+				expect(readFileSync).toHaveBeenNthCalledWith(
+					index + 1,
+					expectedResult,
+					"utf8"
+				);
+			});
+
 			expect(console.log).toHaveBeenCalledWith(
 				"✔ Skipped: pre-commit already up to date."
 			);
@@ -174,33 +168,30 @@ describe("Preparation", () => {
 		});
 
 		it("should copy file successfully", () => {
+			const src = "path/from/source";
+			const dest = "path/to/dest";
 			existsSync.mockReturnValueOnce(false);
-			const preparation = new Preparation(options);
 
-			preparation._copyFile("path/to/source", "path/to/dest");
+			new Preparation(options)._copyFile(src, dest);
 
 			expect(mkdirSync).toHaveBeenCalledWith("path/to", { recursive: true });
-			expect(copyFileSync).toHaveBeenCalledWith(
-				"path/to/source",
-				"path/to/dest"
-			);
-			expect(console.log).toHaveBeenCalledWith(
-				"✔ Copied: path/to/source -> path/to/dest"
-			);
+			expect(copyFileSync).toHaveBeenCalledWith(src, dest);
+			expect(console.log).toHaveBeenCalledWith(`✔ Copied: ${src} -> ${dest}`);
 		});
 
 		it("should log an error if copying file fails", () => {
 			const errorMessage = "Permission denied";
+			const src = "path/from/source";
+			const dest = "path/to/dest";
 			existsSync.mockReturnValueOnce(false);
 			mkdirSync.mockImplementationOnce(() => {
 				throw new Error(errorMessage);
 			});
-			const preparation = new Preparation(options);
 
-			preparation._copyFile("path/to/source", "path/to/dest");
+			new Preparation(options)._copyFile(src, dest);
 
 			expect(console.error).toHaveBeenCalledWith(
-				"❌ Error copying path/to/source to path/to/dest:",
+				`❌ Error copying ${src} to ${dest}:`,
 				errorMessage
 			);
 		});
