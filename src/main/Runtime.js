@@ -1,7 +1,7 @@
-const Initialization = require("./initialization");
-const Preparation = require("./preparation");
-const Deinitialization = require("./deinitialization");
-const { throwIfMissing } = require("../utils");
+const Initialization = require('./initialization');
+const Preparation = require('./preparation');
+const Deinitialization = require('./deinitialization');
+const { throwIfMissing } = require('../utils');
 
 class Runtime {
 	/**
@@ -14,7 +14,7 @@ class Runtime {
 	 * @throws Will throw an error if any of the required options are missing.
 	 */
 	constructor(options) {
-		const requiredOptions = ["config", "packageRoot", "projectRoot"];
+		const requiredOptions = ['config', 'packageRoot', 'projectRoot'];
 		requiredOptions.forEach((option) =>
 			throwIfMissing(options[option], `options.${option} is required`)
 		);

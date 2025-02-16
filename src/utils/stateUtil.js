@@ -1,4 +1,4 @@
-const { BehaviorSubject } = require("rxjs");
+const { BehaviorSubject } = require('rxjs');
 
 let initialState = {};
 
