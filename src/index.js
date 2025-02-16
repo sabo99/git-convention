@@ -11,7 +11,4 @@ const runtime = new Runtime({
 	projectRoot: process.cwd()
 });
 
-console.log('packageRoot:', resolve(__filename, '..'));
-console.log('projectRoot:', process.cwd());
-
 runtime.exec();
