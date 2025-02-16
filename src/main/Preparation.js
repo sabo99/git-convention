@@ -1,6 +1,6 @@
-const { existsSync, mkdirSync, copyFileSync, readFileSync } = require("fs");
-const { dirname, join } = require("path");
-const { throwIfMissing } = require("../utils");
+const { existsSync, mkdirSync, copyFileSync, readFileSync } = require('fs');
+const { dirname, join } = require('path');
+const { throwIfMissing } = require('../utils');
 
 /**
  * Class representing the preparation of configurations.
@@ -16,9 +16,9 @@ class Preparation {
 	 * @throws Will throw an error if any of the required options are missing.
 	 */
 	constructor(options) {
-    throwIfMissing(options, "options is required");
-		throwIfMissing(options.config, "options.config is required");
-		throwIfMissing(options.packageRoot, "options.packageRoot is required");
+    throwIfMissing(options, 'options is required');
+		throwIfMissing(options.config, 'options.config is required');
+		throwIfMissing(options.packageRoot, 'options.packageRoot is required');
 
 		Object.assign(this, options);
 	}
@@ -47,7 +47,7 @@ class Preparation {
 		if (existsSync(commitlintSrc)) {
 			this._copyFile(commitlintSrc, commitlintDest);
 		} else {
-			console.warn("⚠ Commitlint config not found, skipping.");
+			console.warn('⚠ Commitlint config not found, skipping.');
 		}
 	}
 
@@ -66,8 +66,8 @@ class Preparation {
 			if (existsSync(srcPath)) {
 				// Check if destination file exists and has the same content
 				if (existsSync(destPath)) {
-					const srcContent = readFileSync(srcPath, "utf8").trim();
-					const destContent = readFileSync(destPath, "utf8").trim();
+					const srcContent = readFileSync(srcPath, 'utf8').trim();
+					const destContent = readFileSync(destPath, 'utf8').trim();
 
 					if (srcContent === destContent) {
 						console.log(`✔ Skipped: ${hook} already up to date.`);

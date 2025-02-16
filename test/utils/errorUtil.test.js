@@ -1,4 +1,4 @@
-const { throwIfMissing } = require("@utils");
+const { throwIfMissing } = require('@utils');
 
 describe('errorUtil', () => {
   describe('#throwIfMissing', () => {

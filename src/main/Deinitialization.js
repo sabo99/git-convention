@@ -1,5 +1,5 @@
-const { execSync } = require("node:child_process");
-const { throwIfMissing } = require("../utils");
+const { execSync } = require('node:child_process');
+const { throwIfMissing } = require('../utils');
 
 class Deinitialization {
 	/**
@@ -11,7 +11,7 @@ class Deinitialization {
 	 * @throws Will throw an error if any of the required options are missing.
 	 */
 	constructor(options) {
-		throwIfMissing(options.config, "options.config is required");
+		throwIfMissing(options.config, 'options.config is required');
 
 		Object.assign(this, options);
 	}
@@ -22,12 +22,12 @@ class Deinitialization {
 			State
 		} = this.config;
 
-		const huskyState = State.get("HUSKY");
+		const huskyState = State.get('HUSKY');
 		const { skip } = huskyState;
 		if (skip) {
-			console.log("✔ Skipped: deinitialization.");
+			console.log('✔ Skipped: deinitialization.');
 		} else {
-			console.log("🔧 Deinitialization process...");
+			console.log('🔧 Deinitialization process...');
 
 			NPM_PACKAGES.forEach((deletePackage) => {
 				execSync(deletePackage.command, deletePackage.options);

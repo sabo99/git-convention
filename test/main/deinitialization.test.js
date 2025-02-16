@@ -1,9 +1,9 @@
-import Deinitialization from "../../src/main/deinitialization";
-const { execSync } = require("node:child_process");
+import Deinitialization from '../../src/main/deinitialization';
+const { execSync } = require('node:child_process');
 
-jest.mock("node:child_process");
+jest.mock('node:child_process');
 
-describe("Deinitialization", () => {
+describe('Deinitialization', () => {
 	let options, config, state;
 
 	beforeEach(() => {
@@ -13,7 +13,7 @@ describe("Deinitialization", () => {
 		};
 		config = {
 			Commands: {
-				NPM_PACKAGES: [{ command: "npm uninstall package", options: {} }]
+				NPM_PACKAGES: [{ command: 'npm uninstall package', options: {} }]
 			},
 			State: state
 		};
@@ -23,17 +23,17 @@ describe("Deinitialization", () => {
 		};
 	});
 
-	describe("#exec", () => {
-		it("should invoke State when state.get.skip is true", () => {
+	describe('#exec', () => {
+		it('should invoke State when state.get.skip is true', () => {
 			const deinitialization = new Deinitialization(options);
 			deinitialization.exec();
 
-			expect(config.State.get).toHaveBeenCalledWith("HUSKY");
-      expect(execSync).not.toHaveBeenCalled();
+			expect(config.State.get).toHaveBeenCalledWith('HUSKY');
+			expect(execSync).not.toHaveBeenCalled();
 			expect(config.State.delete).toHaveBeenCalled();
 		});
 
-		it("should invoke State when state.get.skip is false", () => {
+		it('should invoke State when state.get.skip is false', () => {
 			const deinitialization = new Deinitialization({
 				...options,
 				config: {
@@ -46,7 +46,10 @@ describe("Deinitialization", () => {
 			});
 			deinitialization.exec();
 
-      expect(execSync).toHaveBeenLastCalledWith(config.Commands.NPM_PACKAGES[0].command, {});
+			expect(execSync).toHaveBeenLastCalledWith(
+				config.Commands.NPM_PACKAGES[0].command,
+				{}
+			);
 			expect(config.State.delete).toHaveBeenCalled();
 		});
 	});

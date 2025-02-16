@@ -1,22 +1,22 @@
-const { execSync } = require("node:child_process");
-const { existsSync } = require("fs");
-const Initialization = require("../../src/main/initialization");
+const { execSync } = require('node:child_process');
+const { existsSync } = require('fs');
+const Initialization = require('../../src/main/initialization');
 
-jest.mock("node:child_process");
-jest.mock("fs");
-jest.mock("../../src/utils");
+jest.mock('node:child_process');
+jest.mock('fs');
+jest.mock('../../src/utils');
 
-describe("Initialization", () => {
+describe('Initialization', () => {
 	let config, options;
 
 	beforeEach(() => {
 		config = {
 			Commands: {
-				INSTALL_DEV_DEPEDENCIES: { command: "npm install", options: {} },
-				HUSKY_INIT: { command: "npx husky-init", options: {} }
+				INSTALL_DEV_DEPEDENCIES: { command: 'npm install', options: {} },
+				HUSKY_INIT: { command: 'npx husky-init', options: {} }
 			},
 			Paths: {
-				HUSKY: { dest: ".husky" }
+				HUSKY: { dest: '.husky' }
 			},
 			State: {
 				set: jest.fn()
@@ -25,8 +25,8 @@ describe("Initialization", () => {
 
 		options = {
 			config,
-			packageRoot: "/path/to/package",
-			projectRoot: "/path/to/project"
+			packageRoot: '/path/to/package',
+			projectRoot: '/path/to/project'
 		};
 	});
 
@@ -34,8 +34,8 @@ describe("Initialization", () => {
 		jest.clearAllMocks();
 	});
 
-	describe("#exec", () => {
-		it("should install devDependencies and initialize Husky", () => {
+	describe('#exec', () => {
+		it('should install devDependencies and initialize Husky', () => {
 			existsSync.mockReturnValue(false);
 
 			const initialization = new Initialization(options);
@@ -49,10 +49,10 @@ describe("Initialization", () => {
 				config.Commands.HUSKY_INIT.command,
 				config.Commands.HUSKY_INIT.options
 			);
-			expect(config.State.set).toHaveBeenCalledWith("HUSKY", { skip: false });
+			expect(config.State.set).toHaveBeenCalledWith('HUSKY', { skip: false });
 		});
 
-		it("should skip installing devDependencies if already installed", () => {
+		it('should skip installing devDependencies if already installed', () => {
 			options.packageRoot = options.projectRoot;
 			existsSync.mockReturnValue(false);
 
@@ -67,10 +67,10 @@ describe("Initialization", () => {
 				config.Commands.HUSKY_INIT.command,
 				config.Commands.HUSKY_INIT.options
 			);
-			expect(config.State.set).toHaveBeenCalledWith("HUSKY", { skip: false });
+			expect(config.State.set).toHaveBeenCalledWith('HUSKY', { skip: false });
 		});
 
-		it("should skip initializing Husky if already initialized", () => {
+		it('should skip initializing Husky if already initialized', () => {
 			existsSync.mockReturnValue(true);
 
 			const initialization = new Initialization(options);
@@ -84,7 +84,7 @@ describe("Initialization", () => {
 				config.Commands.HUSKY_INIT.command,
 				config.Commands.HUSKY_INIT.options
 			);
-			expect(config.State.set).toHaveBeenCalledWith("HUSKY", { skip: true });
+			expect(config.State.set).toHaveBeenCalledWith('HUSKY', { skip: true });
 		});
 	});
 });
